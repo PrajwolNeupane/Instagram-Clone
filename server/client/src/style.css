@@ -1,0 +1,52 @@
+.profile-post-grid {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-row-gap: 50px;
+  grid-column-gap: 30px;
+  margin: 20px auto;
+}
+.profile-post {
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+}
+.profile-post:hover .profile-post-content {
+  opacity: 1;
+}
+.profile-post-content {
+  width: 100%;
+  height: 100%;
+  display: none;
+  opacity: 0;
+  transition: .5s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .profile-post {
+    width: 250px;
+    height: 250px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .profile-post-grid {
+    grid-template-columns: auto auto;
+  }
+  .profile-post {
+    width: 230px;
+    height: 230px;
+  }
+  .profile-post-content{
+    gap: 10px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .profile-post {
+    width: 200px;
+    height: 200px;
+  }
+}
