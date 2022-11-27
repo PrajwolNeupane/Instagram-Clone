@@ -10,6 +10,17 @@ export default function MessagePage() {
     const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4];
     const sm = useMediaQuery('(min-width:800px)');
     const [userIndex, setUserIndex] = useState(null);
+    const [typeMessage, setTypeMessage] = useState("");
+
+
+    const onChange = (e) => {
+        setTypeMessage(e.target.value);
+    }
+
+    const sendMessage = () => {
+        alert(typeMessage)
+    }
+
 
     return (
         <Stack sx={{ flexDirection: "row", width: "100%" }}>
@@ -23,7 +34,7 @@ export default function MessagePage() {
                                     Prajwol Neupane
                                 </Typography> : <Stack sx={{ width: "100%", alignItems: "center", padding: "10px 0px", borderBottom: "1px #9eaaba solid" }}> <Avatar src={image} sx={{ width: "45px", height: "45px" }} /> </Stack>
                         }
-                        <Stack sx={{ flexDirection: "column", width: "100%", height: "100%", gap: "10px", overflowY: "auto", }}>
+                        <Stack sx={{ flexDirection: "column", width: "100%", height: "100%", gap: "10px", overflowY: "auto",marginBottom:{md:"0px",sm:"30px",xs:"30px"} }}>
                             {
                                 array.map((curr, indx) => (
                                     <Stack sx={{
@@ -37,7 +48,7 @@ export default function MessagePage() {
                                                     <Typography sx={{ fontSize: "15px" }} variant="h3">Prajwol Neupane</Typography>
                                                     <Typography sx={{ fontSize: "13px" }} variant="h3">OK</Typography>
                                                 </Stack>
-                                                <Stack sx={{ width: "8px", height: "8px", backgroundColor: "green", borderRadius: "4px", marginLeft: "25%", display: { md: "block", sm: "none", xs: "none" } }}></Stack></> : <>
+                                                <Stack sx={{ width: "8px", height: "8px", backgroundColor: "green", borderRadius: "4px", marginLeft: "25%", display: { md: "block", sm: "block", xs: "none" } }}></Stack></> : <>
                                                 <Stack >
                                                     <Typography sx={{ fontSize: "15px" }} variant="h3">Prajwol Neupane</Typography>
                                                     <Typography sx={{ fontSize: "13px" }} variant="h3">OK</Typography>
@@ -56,24 +67,36 @@ export default function MessagePage() {
                             <Typography variant='h5' sx={{ fontSize: "23px" }}>Your Messages</Typography>
                             <Typography variant='h5' sx={{ fontSize: "18px" }}>Click on conversation to start chatting</Typography>
                         </Stack> :
-                            <Stack sx={{ width: "65%",padding:"10px 50px" }}>
+                            <Stack sx={{ width: "65%"}}>
                                 <Stack sx={{ flexDirection: "row", padding: "9px 20px", alignItems: "center", gap: "10px", borderBottom: "1px #9eaaba solid" }}>
                                     <Avatar src={image} />
                                     <Typography variant='h3' sx={{ fontSize: "15px" }}>Prajwol Neupane</Typography>
                                 </Stack>
-                                <Stack sx={{ flexDirection: "column", overflowY: "auto" }}>
-                                    <Stack  sx={{ alignItems: "flex-start" }}>
-                                        <Typography sx={{ backgroundColor: "blueShade.superlight", padding: "10px", borderRadius: "10px", maxWidth: "380px" }}>
-                                            Hello
-                                        </Typography>
-                                    </Stack>
-                                    <Stack sx={{ alignItems: "flex-end" }}>
-                                        <Typography sx={{ backgroundColor: "blueShade.superlight", padding: "10px", borderRadius: "10px", maxWidth: "350px", fontSize: "15px" }}>
-                                            HelloSearch for the keywords to learn more about each warning.
-                                            To ignore, add // eslint-disable-next-line to the line before.
-                                            Search for the keywords to learn more about each warning.
-                                            To ignore, add // eslint-disable-next-line to the line before.
-                                        </Typography>
+                                <Stack sx={{ flexDirection: "column", overflowY: "auto", padding: "10px 20px",marginBottom:"70px",gap:"10px" }}>
+                                    {
+                                        array.map((curr, indx) => (
+                                            <>
+                                                <Stack sx={{ alignItems: "flex-start" }}>
+                                                    <Typography sx={{ backgroundColor: "white", padding: "10px", borderRadius: "15px", maxWidth: {sm:"380px",xs:"240px"}, border: "1px #9eaaba solid", fontSize: "14px" }}>
+                                                        Hello
+                                                    </Typography>
+                                                </Stack>
+                                                <Stack sx={{ alignItems: "flex-end" }}>
+                                                    <Typography sx={{ backgroundColor: "blueShade.superlight", padding: "10px", borderRadius: "15px", maxWidth: {sm:"380px",xs:"240px"}, fontSize: "14px" }}>
+                                                        HelloSearch for the keywords to learn more about each warning.
+                                                        To ignore, add // eslint-disable-next-line to the line before.
+                                                        Search for the keywords to learn more about each warning.
+                                                        To ignore, add // eslint-disable-next-line to the line before.
+                                                    </Typography>
+                                                </Stack>
+                                            </>
+                                        ))
+                                    }
+                                    <Stack sx={{ position: "fixed", bottom: {md:"17px",sm:"47px",xs:"47px"}, width: {lg:"46%",md:"50%",sm:"60%",xs:"60%"}, backgroundColor: "white", margin: "0px -20px", height: "40px", padding: "10px 0px", flexDirection: "row", justifyContent: "space-around", alignItems: "center" }}>
+                                        <textarea style={{ width: "85%", height: "100%", resize: "none", border: "1px #9eaaba solid", borderRadius: "5px", outline: "none", fontSize: "14px", fontWeight: 500, fontFamily: "'Poppins', sans-serif" }} placeholder="Message" value={typeMessage} onChange={onChange}></textarea>
+                                        <button style={{ padding: "6px 14px", cursor: "pointer", borderRadius: "10px", border: "1px #9eaaba solid", backgroundColor: "#0095f6" }} onClick={() => {
+                                            sendMessage();
+                                        }}>Send</button>
                                     </Stack>
                                 </Stack>
                             </Stack>
