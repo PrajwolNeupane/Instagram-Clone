@@ -11,6 +11,7 @@ import CreatPostModel from './CreatPostModel';
 import NotificationDrawer from './NotificationDrawer';
 import SearchDrawer from './SearchDrawer.js';
 
+
 export default function LeftNavigationBar() {
 
     const image = 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80';
@@ -20,8 +21,10 @@ export default function LeftNavigationBar() {
     const [open,setOpen] = useState(false);
     const [openNotification,setOpenNotifiction] = useState(false);
     const [openSearch,setOpenSearch] = useState(false);
+    
 
     const Navigate = useNavigate();
+   
 
     return (
         <>

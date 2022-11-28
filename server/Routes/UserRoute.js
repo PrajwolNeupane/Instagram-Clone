@@ -49,7 +49,7 @@ router.post('/createuser', async (req, res) => {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        user = new UserModal(req.body);
+        user = new UserModal({...req.body,image:"https://aui.atlassian.com/aui/latest/docs/images/avatar-person.svg"});
         user = await user.save();
 
         const token = jwt.sign({
