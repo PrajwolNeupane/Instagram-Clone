@@ -5,14 +5,21 @@ import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import CreatPostModel from './CreatPostModel';
+import NotificationDrawer from './NotificationDrawer';
+import SearchDrawer from './SearchDrawer.js';
 
 export default function LeftNavigationBar() {
 
     const image = 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80';
 
     const matchMD = useMediaQuery('(min-width:1200px)');
+
+    const [open,setOpen] = useState(false);
+    const [openNotification,setOpenNotifiction] = useState(false);
+    const [openSearch,setOpenSearch] = useState(false);
 
     const Navigate = useNavigate();
 
@@ -36,6 +43,8 @@ export default function LeftNavigationBar() {
                             flexDirection: "row", gap: "10px", alignItems: "center", padding: "5px", cursor: "pointer", borderRadius: "10px", ":hover": {
                                 backgroundColor: "whiteShade.light"
                             }
+                        }} onClick={()=>{
+                            setOpenSearch(true);
                         }}>
                             <SearchIcon sx={{ fontSize: "30px", color: "text.main" }} />
                             <Typography variant='h4' sx={{ color: "text.main", fontSize: "16px" }}>Search</Typography>
@@ -44,6 +53,8 @@ export default function LeftNavigationBar() {
                             flexDirection: "row", gap: "10px", alignItems: "center", padding: "5px", cursor: "pointer", borderRadius: "10px", ":hover": {
                                 backgroundColor: "whiteShade.light"
                             }
+                        }}  onClick={()=>{
+                            Navigate("/explore")
                         }}>
                             <ExploreOutlinedIcon sx={{ fontSize: "30px", color: "text.main" }} />
                             <Typography variant='h4' sx={{ color: "text.main", fontSize: "16px" }}>Explore</Typography>
@@ -63,15 +74,18 @@ export default function LeftNavigationBar() {
                             flexDirection: "row", gap: "10px", alignItems: "center", padding: "5px", cursor: "pointer", borderRadius: "10px", ":hover": {
                                 backgroundColor: "whiteShade.light"
                             }
+                        }} onClick={()=>{
+                            setOpenNotifiction(true);
                         }}>
                             <FavoriteBorderOutlinedIcon sx={{ fontSize: "30px", color: "text.main" }} />
                             <Typography variant='h4' sx={{ color: "text.main", fontSize: "16px" }}>Notifications</Typography>
-                            <Typography variant='h3' sx={{ color: "white", fontSize: "16px", backgroundColor: "red", textAlign: "center", height: "20px", width: "20px", borderRadius: "10px" }}>2</Typography>
                         </Stack>
                         <Stack sx={{
                             flexDirection: "row", gap: "10px", alignItems: "center", padding: "5px", cursor: "pointer", borderRadius: "10px", ":hover": {
                                 backgroundColor: "whiteShade.light"
                             }
+                        }} onClick={()=>{
+                            setOpen(true);
                         }}>
                             <AddCircleOutlineOutlinedIcon sx={{ fontSize: "30px", color: "text.main" }} />
                             <Typography variant='h4' sx={{ color: "text.main", fontSize: "16px" }}>Create</Typography>
@@ -100,6 +114,8 @@ export default function LeftNavigationBar() {
                             flexDirection: "row", gap: "10px", alignItems: "center", padding: "5px", cursor: "pointer", borderRadius: "10px", ":hover": {
                                 backgroundColor: "whiteShade.light"
                             }
+                        }} onClick={()=>{
+                            setOpenSearch(true);
                         }}>
                             <SearchIcon sx={{ fontSize: "30px", color: "text.main" }} />
                         </Stack>
@@ -107,6 +123,8 @@ export default function LeftNavigationBar() {
                             flexDirection: "row", gap: "10px", alignItems: "center", padding: "5px", cursor: "pointer", borderRadius: "10px", ":hover": {
                                 backgroundColor: "whiteShade.light"
                             }
+                        }} onClick={()=>{
+                            Navigate("/explore")
                         }}>
                             <ExploreOutlinedIcon sx={{ fontSize: "30px", color: "text.main" }} />
                         </Stack>
@@ -121,6 +139,8 @@ export default function LeftNavigationBar() {
                             flexDirection: "row", gap: "10px", alignItems: "center", padding: "5px", cursor: "pointer", borderRadius: "10px", ":hover": {
                                 backgroundColor: "whiteShade.light"
                             }
+                        }} onClick={()=>{
+                            setOpenNotifiction(true);
                         }}>
                             <FavoriteBorderOutlinedIcon sx={{ fontSize: "30px", color: "text.main" }} />
                         </Stack>
@@ -128,6 +148,8 @@ export default function LeftNavigationBar() {
                             flexDirection: "row", gap: "10px", alignItems: "center", padding: "5px", cursor: "pointer", borderRadius: "10px", ":hover": {
                                 backgroundColor: "whiteShade.light"
                             }
+                        }} onClick={()=>{
+                            setOpen(true);
                         }}>
                             <AddCircleOutlineOutlinedIcon sx={{ fontSize: "30px", color: "text.main" }} />
                         </Stack>
@@ -139,6 +161,10 @@ export default function LeftNavigationBar() {
                             <Avatar src={image} sx={{ border: "2px black solid", width: "30px", height: "30px" }} />
                         </Stack>
                     </Stack>
-                </>}</>
+                </>}
+                <CreatPostModel open={open} setOpen={setOpen}/>
+                <NotificationDrawer open={openNotification} setOpen={setOpenNotifiction}/>
+                <SearchDrawer open={openSearch} setOpen={setOpenSearch}/>
+                </>
     )
 }
