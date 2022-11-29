@@ -8,6 +8,9 @@ import ExplorePage from './Page/ExplorePage';
 import getCookie from './Hooks/getCookie.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToken } from './State Management/TokenSlice';
+import { addUser } from './State Management/UserSlice';
+import { api } from './Const';
+import axios from 'axios';
 
 
 export default function App() {
@@ -22,6 +25,20 @@ export default function App() {
     dispatch(addToken(getCookie("c_user") === undefined ? null : getCookie("c_user")));
 
   }, []);
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const res = await axios.post(`${api}/user/me/`, { token: token });
+        dispatch(addUser(res.data));
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    if (token) {
+      getUserData();
+    }
+  }, [token]);
 
   return (
     <Routes>

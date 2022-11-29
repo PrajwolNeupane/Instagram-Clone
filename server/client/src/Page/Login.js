@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import setCookie from '../Hooks/setCookie.js';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { api,email,password } from '../Const.js';
+import { api, email, password } from '../Const.js';
 import { addToken } from '../State Management/TokenSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -15,6 +15,7 @@ export default function Login() {
 
     const Navigate = useNavigate();
     const dispatch = useDispatch();
+
 
     const onChange = (e) => {
         if (isLogin) {
@@ -47,7 +48,7 @@ export default function Login() {
 
         try {
 
-            const res = await axios.post(`${api}/user/login`, {email:email,password:password});
+            const res = await axios.post(`${api}/user/login`, { email: email, password: password });
             setCookie("c_user", res.data.token);
             dispatch(addToken(res.data.token));
             Navigate("/");
@@ -100,7 +101,7 @@ export default function Login() {
                         }}>Log in</span></Typography>
                     </Stack>
             }
-            <Typography sx={{ color: "text.main", fontSize: "16px", cursor: "pointer" }} variant='h4' onClick={()=>{loginAsGuest()}}>Log in as guest</Typography>
+            <Typography sx={{ color: "text.main", fontSize: "16px", cursor: "pointer" }} variant='h4' onClick={() => { loginAsGuest() }}>Log in as guest</Typography>
         </Stack>
     )
 }

@@ -10,11 +10,10 @@ import { useNavigate } from 'react-router-dom';
 import CreatPostModel from './CreatPostModel';
 import NotificationDrawer from './NotificationDrawer';
 import SearchDrawer from './SearchDrawer.js';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function LeftNavigationBar() {
-
-    const image = 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80';
 
     const matchMD = useMediaQuery('(min-width:1200px)');
 
@@ -24,6 +23,7 @@ export default function LeftNavigationBar() {
     
 
     const Navigate = useNavigate();
+    const { user } = useSelector((state) => state.User);
    
 
     return (
@@ -97,8 +97,8 @@ export default function LeftNavigationBar() {
                             flexDirection: "row", gap: "10px", alignItems: "center", padding: "5px", cursor: "pointer", borderRadius: "10px", ":hover": {
                                 backgroundColor: "whiteShade.light"
                             }
-                        }} onClick={()=>{Navigate("/profile/1234")}}>
-                            <Avatar src={image} sx={{ border: "2px black solid", width: "30px", height: "30px" }} />
+                        }} onClick={()=>{Navigate(`/profile/${user?._id}`)}}>
+                            <Avatar src={user?.image} sx={{ border: "2px black solid", width: "30px", height: "30px" }} />
                             <Typography variant='h4' sx={{ color: "text.main", fontSize: "16px" }}>Profile</Typography>
                         </Stack>
                     </Stack>
@@ -160,8 +160,8 @@ export default function LeftNavigationBar() {
                             flexDirection: "row", gap: "10px", alignItems: "center", padding: "5px", cursor: "pointer", borderRadius: "10px", ":hover": {
                                 backgroundColor: "whiteShade.light"
                             }
-                        }} onClick={()=>{Navigate("/profile/123")}}>
-                            <Avatar src={image} sx={{ border: "2px black solid", width: "30px", height: "30px" }} />
+                        }} onClick={()=>{Navigate(`/profile/${user?._id}`)}}>
+                            <Avatar src={user?.image} sx={{ border: "2px black solid", width: "30px", height: "30px" }} />
                         </Stack>
                     </Stack>
                 </>}

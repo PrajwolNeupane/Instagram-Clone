@@ -3,6 +3,7 @@ import cors from "cors";
 import http from 'http';
 import { Server } from 'socket.io';
 import UserRoute from './Routes/UserRoute.js';
+import PostRoute from './Routes/PostRoute.js';
 import DBConnection from './Modal/index.js';
 
 
@@ -14,7 +15,9 @@ app.use(cors({
     origin: "*"
 }));
 app.use(express.json());
+app.use(express.static("public"));
 app.use('/user',UserRoute);
+app.use('/post',PostRoute);
 
 const io = new Server(server, {
     cors: {

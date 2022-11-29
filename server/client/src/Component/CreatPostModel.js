@@ -1,11 +1,20 @@
 import { Avatar, Box, Modal, Stack, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function CreatPostModel({ open, setOpen }) {
 
-    const image = 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80';
 
     const [selectedImage, setSelectedImage] = useState(null);
+    const { user } = useSelector((state) => state.User);
+
+    const createPost =  async () =>{
+        try{
+            
+        }catch(e){
+            
+        }
+    }
 
 
     return (
@@ -37,10 +46,10 @@ export default function CreatPostModel({ open, setOpen }) {
                     </Box>
                     <Stack sx={{ gap: "20px", width: { md: "50%", sm: "50%", xs: "100%" }, height: { md: "500px", sm: "500px", xs: "250px" } }}>
                         <Stack sx={{ flexDirection: "row", gap: "10px" }}>
-                            <Avatar src={image} sx={{ width: "45px", height: "45px" }} />
+                            <Avatar src={user?.image} sx={{ width: "45px", height: "45px" }} />
                             <Stack sx={{ flexDirection: "column" }}>
-                                <Typography variant='h3' sx={{ color: "text.main", fontSize: "16px" }}>Prajwol Neupane</Typography>
-                                <Typography variant='h4' sx={{ color: "text.main", fontSize: "14px" }}>prajwolneupane68@gmail.com</Typography>
+                                <Typography variant='h3' sx={{ color: "text.main", fontSize: "16px" }}>{user?.name}</Typography>
+                                <Typography variant='h4' sx={{ color: "text.main", fontSize: "14px" }}>{user?.email}</Typography>
                             </Stack>
                         </Stack>
                         <textarea style={{ width: "100%", height: "100%", resize: "none", border: "1px #9eaaba solid", borderRadius: "5px", outline: "none", fontSize: "14px", fontWeight: 500, fontFamily: "'Poppins', sans-serif" }} placeholder="Caption"></textarea>

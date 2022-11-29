@@ -1,19 +1,41 @@
 import { Avatar, Stack, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import LeftNavigationBar from '../Component/LeftNavigationBar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import { addToken } from '../State Management/TokenSlice';
+import removeCookie from '../Hooks/removeCookie.js';
 import '../style.css';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { api } from '../Const';
 
 export default function ProfilePage() {
 
     const { id } = useParams();
+    const dispatch = useDispatch();
+    const [userData, setUserData] = useState({});
+
 
 
     const image = 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80';
 
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    const logOut = async () => {
+        removeCookie("c_user");
+        dispatch(addToken(null));
+    }
+    useEffect(() => {
+        const getUserData = async () => {
+            const res = await axios.post(`${api}/user/id/`, { id: id });
+            setUserData(res?.data);
+        }
+        if (id) {
+            getUserData();
+        }
+    }, [id]);
 
     return (
         <Stack sx={{ width: "100%", flexDirection: "row" }}>
@@ -21,22 +43,25 @@ export default function ProfilePage() {
             <Stack sx={{ width: "100%", backgroundColor: "whiteShade.light", marginLeft: { lg: "19%", md: "9.5%", sm: "0px", xs: "0px" }, padding: "2% 0px" }}>
                 <Stack sx={{ alignItems: "center" }}>
                     <Stack sx={{ flexDirection: "row", alignItems: "center", gap: { lg: "120px", md: "80px", sm: "50px", xs: "30px" } }}>
-                        <Avatar src={image} sx={{ width: { md: "180px", sm: "160px", xs: "140px" }, height:{ md: "180px", sm: "160px", xs: "140px" }, border: "3px #9c9a9a solid" }} />
+                        <Avatar src={userData?.image} sx={{ width: { md: "180px", sm: "160px", xs: "140px" }, height: { md: "180px", sm: "160px", xs: "140px" }, border: "3px #9c9a9a solid" }} />
                         <Stack sx={{ width: { lg: "400px", md: "300px", sm: "250px", xs: "250px" }, gap: "10px" }}>
-                            <Typography variant='h5' sx={{ fontSize: "24px" }}>Prajwol Neupane</Typography>
+                            <Typography variant='h5' sx={{ fontSize: "24px" }}>{userData?.name}</Typography>
                             <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                <Typography variant='h5' sx={{ fontSize: "16px" }}><span style={{ fontWeight: 500 }}>19</span> posts</Typography>
-                                <Typography variant='h5' sx={{ fontSize: "16px" }}><span style={{ fontWeight: 500 }}>129</span> followers</Typography>
-                                <Typography variant='h5' sx={{ fontSize: "16px" }}><span style={{ fontWeight: 500 }}>89</span> following</Typography>
+                                <Typography variant='h5' sx={{ fontSize: "16px" }}><span style={{ fontWeight: 500 }}>{userData?.post?.length}</span> posts</Typography>
+                                <Typography variant='h5' sx={{ fontSize: "16px" }}><span style={{ fontWeight: 500 }}>{userData?.followers?.length}</span> followers</Typography>
+                                <Typography variant='h5' sx={{ fontSize: "16px" }}><span style={{ fontWeight: 500 }}>{userData?.following?.length}</span> following</Typography>
                             </Stack>
-                            <Typography variant='h3' sx={{ fontSize: "16px" }}>prajwolneupane68@gmail.com</Typography>
-                            <button style={{padding:"8px",fontSize:"14px",fontWeight:600,width:"30%",cursor:"pointer"}}>Edit Profile</button>
+                            <Typography variant='h3' sx={{ fontSize: "16px" }}>{userData?.email}</Typography>
+                            <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                <button style={{ padding: "8px", fontSize: "14px", fontWeight: 600, width: "30%", cursor: "pointer" }}>Edit Profile</button>
+                                <button style={{ padding: "8px", fontSize: "14px", fontWeight: 600, width: "30%", cursor: "pointer" }} onClick={() => { logOut() }}>Log Out</button>
+                            </Stack>
                         </Stack>
                     </Stack>
                 </Stack>
                 <div className='profile-post-grid'>
                     {
-                        arr.map((_, indx) => (
+                        userData?.post?.map((_, indx) => (
                             <div className='profile-post' key={indx}>
                                 <Stack sx={{
                                     backgroundImage: `url(${image})`, width: "100%", height: "100%", backgroundSize: "cover",
