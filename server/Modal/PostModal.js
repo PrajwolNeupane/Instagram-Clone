@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 
 const PostSchema = new mongoose.Schema({
+    owner: {
+        type: mongoose.Schema.Types.ObjectId, ref: "User"
+    }
+    ,
     image: {
         type: String
     },
@@ -15,6 +19,8 @@ const PostSchema = new mongoose.Schema({
         { type: mongoose.Schema.Types.ObjectId, ref: "Comment" }
     ]
 
+}, {
+    timestamps: true
 })
 
 

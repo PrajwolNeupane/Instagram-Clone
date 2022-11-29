@@ -6,6 +6,7 @@ import RightSuggetionBar from '../Component/RightSuggetionBar';
 
 
 
+
 export default function HomePage() {
 
 

@@ -11,6 +11,7 @@ import CreatPostModel from './CreatPostModel';
 import NotificationDrawer from './NotificationDrawer';
 import SearchDrawer from './SearchDrawer.js';
 import { useDispatch, useSelector } from 'react-redux';
+import { api } from '../Const';
 
 
 export default function LeftNavigationBar() {
@@ -98,7 +99,7 @@ export default function LeftNavigationBar() {
                                 backgroundColor: "whiteShade.light"
                             }
                         }} onClick={()=>{Navigate(`/profile/${user?._id}`)}}>
-                            <Avatar src={user?.image} sx={{ border: "2px black solid", width: "30px", height: "30px" }} />
+                            <Avatar src={api +"/uploads/"+user?.image} sx={{ border: "2px black solid", width: "30px", height: "30px" }} />
                             <Typography variant='h4' sx={{ color: "text.main", fontSize: "16px" }}>Profile</Typography>
                         </Stack>
                     </Stack>
@@ -161,7 +162,7 @@ export default function LeftNavigationBar() {
                                 backgroundColor: "whiteShade.light"
                             }
                         }} onClick={()=>{Navigate(`/profile/${user?._id}`)}}>
-                            <Avatar src={user?.image} sx={{ border: "2px black solid", width: "30px", height: "30px" }} />
+                            <Avatar src={api +"/uploads/"+user?.image} sx={{ border: "2px black solid", width: "30px", height: "30px" }} />
                         </Stack>
                     </Stack>
                 </>}

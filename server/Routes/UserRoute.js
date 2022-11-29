@@ -2,10 +2,26 @@ import express from 'express';
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken'
 import UserModal from '../Modal/UserModal.js';
+import PostModal from '../Modal/PostModal.js';
+import multer from 'multer';
 import 'dotenv/config';
 
 
+let image_name;
+
 const router = express.Router();
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads')
+    },
+    filename: function (req, file, cb) {
+        image_name = Date.now() + '-dp-' + Math.round(Math.random() * 10) + "-" + file.originalname.trim()
+        cb(null, image_name)
+    }
+});
+
+const upload = multer({ storage: storage });
 
 router.post('/me', async (req, res) => {
 
@@ -15,7 +31,7 @@ router.post('/me', async (req, res) => {
         const decode = jwt.verify(token, process.env.JWT_TOKEN);
 
         if (!decode) return res.status(401).send('Acess denied. No token provided.');
-        const user = await UserModal.findById(decode.id).select('-password');
+        const user = await UserModal.findById(decode.id).select('-password').populate("post");
         res.send(user);
 
     } catch (e) {
@@ -23,11 +39,12 @@ router.post('/me', async (req, res) => {
     }
 
 });
+
 router.post('/id', async (req, res) => {
 
     try {
         const id = req.body.id;
-        const user = await UserModal.findById(id).select('-password');
+        const user = await UserModal.findById(id).select('-password').populate("post");
         res.send(user);
 
     } catch (e) {
@@ -35,6 +52,38 @@ router.post('/id', async (req, res) => {
     }
 
 });
+
+router.post('/update/picture', upload.single('image'), async (req, res) => {
+
+    try {
+        const id = req.body.id;
+        const user = await UserModal.findByIdAndUpdate(id, { image: image_name }).populate("post");
+        res.send(user);
+
+    } catch (e) {
+        res.send({ message: e })
+    }
+
+});
+
+router.post('/suggestion', async (req, res) => {
+    try {
+        let users = [];
+        const c_user = await UserModal.find({ _id: req.body.id }).select('following');
+        c_user.following?.forEach(async (curr) => {
+            if (users.length < 8) {
+                let user = await UserModal.find(({ _id: { $ne: curr } })).select("-password");
+                users.push(user);
+            }
+            res.send(users);
+        });
+        // users = await UserModal.find({ _id: { $ne: req.body.id } }).select("-password").limit(6);
+
+    } catch (e) {
+        console.log(e);
+    }
+})
+
 router.post('/search', async (req, res) => {
 
     const keyword = req.query.search
@@ -99,7 +148,7 @@ router.post('/createuser', async (req, res) => {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        user = new UserModal({ ...req.body, image: "https://aui.atlassian.com/aui/latest/docs/images/avatar-person.svg" });
+        user = new UserModal({ ...req.body, image: "avatar-person.svg" });
         user = await user.save();
 
         const token = jwt.sign({

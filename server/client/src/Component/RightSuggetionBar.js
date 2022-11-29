@@ -2,6 +2,7 @@ import { Avatar, Stack, Typography } from '@mui/material'
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../Const';
 
 export default function RightSuggetionBar() {
 
@@ -16,7 +17,7 @@ export default function RightSuggetionBar() {
             <Stack sx={{ flexDirection: "row", gap: "10px", alignItems: "center", cursor: "pointer" }} onClick={ ()=>{
                 navigation(`/profile/${user?._id}`);
             }}>
-                <Avatar src={user?.image} sx={{ width: "45px", height: "45px", border: "2px #9eaaba solid" }} />
+                <Avatar src={api+'/uploads/'+user?.image} sx={{ width: "45px", height: "45px", border: "2px #9eaaba solid" }} />
                 <Stack>
                     <Typography variant='h3' sx={{ fontSize: "15px", color: "text.main" }}>{user?.name}</Typography>
                     <Typography variant='h4' sx={{ fontSize: "14px", color: "text.light" }}>{user?.email}</Typography>

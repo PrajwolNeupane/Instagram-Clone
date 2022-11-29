@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Login from './Page/Login';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import HomePage from './Page/HomePage';
@@ -9,16 +9,23 @@ import getCookie from './Hooks/getCookie.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToken } from './State Management/TokenSlice';
 import { addUser } from './State Management/UserSlice';
+import { addPost } from './State Management/PostSlice';
+import { addSocket } from './State Management/SocketSlice.js';
 import { api } from './Const';
 import axios from 'axios';
+import io from "socket.io-client";
 
 
 export default function App() {
 
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.Token);
+  const { user } = useSelector((state) => state.User);
+  const socket = useRef();
 
-
+  useEffect(() => {
+    socket.current = io.connect(api);
+  }, []);
 
   useEffect(() => {
 
@@ -35,10 +42,26 @@ export default function App() {
         console.log(e);
       }
     }
+    const getPostData = async () => {
+      try {
+        const res = await axios.get(`${api}/post/10`);
+        dispatch(addPost(res.data));
+      } catch (e) {
+        console.log(e);
+      }
+    }
     if (token) {
       getUserData();
+      getPostData();
+
     }
   }, [token]);
+
+  useEffect(() => {
+    if(user){
+      socket.current.emit("new-user-add", user);
+    }
+  }, [user]);
 
   return (
     <Routes>
