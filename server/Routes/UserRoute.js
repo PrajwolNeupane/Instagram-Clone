@@ -162,6 +162,17 @@ router.post('/createuser', async (req, res) => {
     }
 });
 
+router.post('/follow', async (req, res) => {
+    try {
+
+        let user = await UserModal.findByIdAndUpdate({_id:req.body.currrentid}, { $push: { following: req.body.id } }).select('-password').populate("post").populate("following");
+        let nextUser = await UserModal.findByIdAndUpdate({_id:req.body.id},{$push :{following:req.body.currrentid}})
+        res.send(user);
+    } catch (e) {
+        console.log(e);
+    }
+})
+
 
 
 export default router;
