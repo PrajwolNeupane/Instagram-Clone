@@ -77,7 +77,7 @@ router.post('/suggestion', async (req, res) => {
             }
             res.send(users);
         });
-        // users = await UserModal.find({ _id: { $ne: req.body.id } }).select("-password").limit(6);
+        // users = await UserModal.find({ _id: { $ne: req.body.id } }).select("-password").limit(6)
 
     } catch (e) {
         console.log(e);
